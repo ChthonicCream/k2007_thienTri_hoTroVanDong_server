@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+
+
+  <div>
+    <h1>Basic web server to control 2 servo</h1>
+  </div>
+  <div>
+    <h2>Control Servo 1</h2>
+    <input type="range" id="servo1" min="0" max="180" value="90">
+  </div>
+  <div>
+    <h2>Control Servo 2</h2>
+    <input type="range" id="servo2" min="0" max="180" value="90">
+  </div>
+  <!-- socket io -->
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    let servo1 = document.getElementById('servo1');
+    let servo2 = document.getElementById('servo2');
+
+    var socket = io();
+
+    socket.on('connect', function () {
+      console.log('Connected to server');
+    });
+
+    servo1.addEventListener('input', debounce());
+
+    servo2.addEventListener('input', () => {
+      socket.emit('servo2', servo2.value);
+    });
+    //debounce function
+    function debounce(func, delay) {
+      let timeoutId;
+      return function (...args) {
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => {
+          func.apply(this, args);
+        }, delay);
+      };
+    }
+  </script>
+</body>
+
+</html>
