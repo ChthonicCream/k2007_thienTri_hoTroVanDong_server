@@ -33,11 +33,13 @@
       console.log('Connected to server');
     });
 
-    servo1.addEventListener('input', debounce());
+    servo1.addEventListener('input', debounce(() => {
+      socket.emit('servo1', servo1.value);
+    }, 300));
 
-    servo2.addEventListener('input', () => {
+    servo2.addEventListener('input', debounce(() => {
       socket.emit('servo2', servo2.value);
-    });
+    }, 300));
     //debounce function
     function debounce(func, delay) {
       let timeoutId;
