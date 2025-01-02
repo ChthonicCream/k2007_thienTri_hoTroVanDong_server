@@ -9,11 +9,14 @@ const option = {
 }
 const io = require("socket.io")(option);
 const fs = require("fs");
+const path = require("path");
 
-let data = JSON.parse(fs.readFileSync("data.json"));
-fs.watchFile("data.json", (curr, prev) => {
+const dataPath = path.join(__dirname, "data.json");
+
+let data = JSON.parse(fs.readFileSync(dataPath));
+fs.watchFile(dataPath, (curr, prev) => {
     console.log("data.json changed");
-    data = JSON.parse(fs.readFileSync("data.json"));
+    data = JSON.parse(fs.readFileSync(dataPath));
 });
 
 const socketapi = {
@@ -37,7 +40,7 @@ io.on("connection", (socket) => {
             humi: newData.humi.toFixed(2),
             time: (new Date()).toLocaleString('vi-vn')
         })
-        fs.writeFileSync("data.json", JSON.stringify(data));
+        fs.writeFileSync(dataPath, JSON.stringify(data));
     });
 
     socket.on("web-get-data", () => {
