@@ -4,28 +4,60 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="../stylesheets/style.css" rel="stylesheet">
   <title>Document</title>
 </head>
 
 <body>
 
+	 <div class="tabs">
+    <button class="tab-btn active" onclick="openTab('form-section')">Form</button>
+    <button class="tab-btn" onclick="openTab('servo-section')">Servo Control</button>
+  </div>
 
-  <div>
+  <!-- Form Section -->
+  <div id="form-section" class="tab-content">
+    <form id="myForm" name="myForm" action="/test" method="post">
+      <label for="name"> Name: </label>
+      <input type="text" id="name" name="name"><br>
+      <label for="org"> Organisation: </label>      
+      <input type="text" id="org" name="org"><br>
+      <label for="remarks"> Feedback: </label>
+      <textarea id="remarks" name="remarks" placeholder="Type your remarks"></textarea><br>
+      <input type="submit" value="Submit Form!"><br>
+    </form>
+    <p> Received: </p> 
+    <p id="name_val"> </p>
+    <p id="org_val"> </p>
+    <p id="remarks_val"> </p>
+  </div>
+
+  <!-- Servo Control Section -->
+  <div id="servo-section" class="tab-content hidden">
     <h1>Basic web server to control 2 servo</h1>
+    <div>
+      <h2>Control Servo 1</h2>
+      <input type="range" id="servo1" min="0" max="180" value="90">
+      <input type="number" id="servo1-input" min="0" max="180" value="90">
+      <p>Servo 1 Value: <span id="servo1-value">90</span></p>
+    </div>
+    <div>
+      <h2>Control Servo 2</h2>
+      <input type="range" id="servo2" min="0" max="180" value="90">
+      <input type="number" id="servo2-input" min="0" max="180" value="90">
+      <p>Servo 2 Value: <span id="servo2-value">90</span></p>
+    </div>
   </div>
-  <div>
-    <h2>Control Servo 1</h2>
-    <input type="range" id="servo1" min="0" max="180" value="90">
-  </div>
-  <div>
-    <h2>Control Servo 2</h2>
-    <input type="range" id="servo2" min="0" max="180" value="0">
-  </div>
+
   <!-- socket io -->
   <script src="/socket.io/socket.io.js"></script>
   <script>
     let servo1 = document.getElementById('servo1');
     let servo2 = document.getElementById('servo2');
+    let servo1Value = document.getElementById('servo1-value');
+    let servo2Value = document.getElementById('servo2-value');
+    let servo1Input = document.getElementById('servo1-input');
+    let servo2Input = document.getElementById('servo2-input');
 
     var socket = io();
 
@@ -33,14 +65,37 @@
       console.log('Connected to server');
     });
 
+    // Update slider when user types into the input box
+    servo1Input.addEventListener('input', () => {
+      let value = Math.min(Math.max(servo1Input.value, 0), 180); // Ensure value stays within bounds
+      servo1.value = value;
+      servo1Value.textContent = value;
+      socket.emit('servo1', value); // Emit value to server
+    });
+
+    servo2Input.addEventListener('input', () => {
+      let value = Math.min(Math.max(servo2Input.value, 0), 180); // Ensure value stays within bounds
+      servo2.value = value;
+      servo2Value.textContent = value;
+      socket.emit('servo2', value); // Emit value to server
+    });
+
+    // Update input when user moves the slider
     servo1.addEventListener('input', debounce(() => {
-      socket.emit('servo1', servo1.value);
+      let value = servo1.value;
+      servo1Input.value = value;
+      servo1Value.textContent = value;
+      socket.emit('servo1', value); // Emit value to server
     }, 300));
 
     servo2.addEventListener('input', debounce(() => {
-      socket.emit('servo2', servo2.value);
+      let value = servo2.value;
+      servo2Input.value = value;
+      servo2Value.textContent = value;
+      socket.emit('servo2', value); // Emit value to server
     }, 300));
-    //debounce function
+
+    // Debounce function
     function debounce(func, delay) {
       let timeoutId;
       return function (...args) {
@@ -50,8 +105,54 @@
         }, delay);
       };
     }
-    //comment
+  </script>
+
+
+  <script>
+	  function validateForm() {
+		const x = document.forms["myForm"]["name"].value;
+		if (!x) {
+		  alert("Name must be filled out");
+		  return false;
+		}
+		const y = document.forms["myForm"]["org"].value;
+		if (!y) {
+		  alert("Organisation must be filled out");
+		  return false;
+		}
+		return true;
+	  }
+
+	  // Add the event listener after the DOM is loaded
+	  document.addEventListener("DOMContentLoaded", function() {
+		document.getElementById("myForm").addEventListener("submit", function(event) {
+		  if (!validateForm()) {
+			event.preventDefault();  // Stop submission if validation fails
+			return;
+		  }
+		  event.preventDefault(); // Prevent page refresh
+		  // Retrieve the input value again here
+		  const x = document.getElementById("name").value;
+		  document.getElementById("name_val").innerHTML = x;
+      const y = document.getElementById("org").value;
+      document.getElementById("org_val").innerHTML = y;
+      const z = document.getElementById("remarks").value;
+      document.getElementById("remarks_val").innerHTML = z;
+		});
+	  });
+	</script>
+
+  <script>
+    function openTab(tabId) {
+      document.querySelectorAll(".tab-content").forEach(tab => {
+        tab.classList.add("hidden"); // Hide all sections
+      });
+      document.getElementById(tabId).classList.remove("hidden"); // Show selected section
+
+      // Update active tab button
+      document.querySelectorAll(".tab-btn").forEach(btn => btn.classList.remove("active"));
+      event.target.classList.add("active");
+    }
   </script>
 </body>
 
-</html>

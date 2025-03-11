@@ -1,4 +1,4 @@
-* {
+/* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -186,7 +186,7 @@ nav > div > #ul1 {
   flex-direction: column;
   background-color: rgb(255, 255, 255);
   border-radius: 20px;
-  /* min-height: 460px; */
+  /* min-height: 460px; 
   height: 100%;
   margin-left: auto;
   margin-right: auto;
@@ -211,5 +211,186 @@ nav > div > #ul1 {
 }
 
 .box-test {
-  /* border: 1px solid #000; */
+  /* border: 1px solid #000; 
+}*/
+/* Global styles */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  margin: 0;
+  padding: 20px;
+  color: #333;
+  text-align: center;
 }
+
+/* Headings */
+h1 {
+  color: #007bff;
+  font-size: 24px;
+}
+
+h2 {
+  color: #0056b3;
+  font-size: 20px;
+}
+
+/* Form styles */
+form {
+  background: white;
+  padding: 20px;
+  max-width: 400px;
+  margin: 20px auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+label {
+  display: block;
+  font-weight: bold;
+  margin: 10px 0 5px;
+}
+
+input, textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+textarea {
+  height: 80px;
+  resize: none;
+}
+
+input[type="submit"] {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 4px;
+  transition: background 0.3s ease;
+}
+
+input[type="submit"]:hover {
+  background: #0056b3;
+}
+
+/* Servo controls */
+div {
+  background: white;
+  padding: 20px; /* Increase padding for spacing */
+  max-width: 500px;
+  margin: 15px auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box; /* Ensure padding doesn't overflow */
+}
+
+/* Style for the range input */
+input[type="range"] {
+  width: 100%; /* Make it fully fit inside the container */
+  max-width: 450px;
+  margin: 10px 0; /* Top and bottom margin to space elements out */
+  display: block;
+  -webkit-appearance: none; /* Ensure consistent appearance across browsers */
+  appearance: none;
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+  height: 8px;
+  background: #ddd;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  width: 20px;
+  height: 20px;
+  background: #4CAF50;
+  border-radius: 50%;
+  cursor: pointer;
+  -webkit-appearance: none; /* Ensure no default styling */
+  position: relative;
+  margin-top: -6px; /* Adjust this to center vertically */
+}
+
+input[type="range"]::-moz-range-track {
+  height: 8px;
+  background: #ddd;
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  background: #4CAF50;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+/* Number input styling */
+input[type="number"] {
+  width: 80px; /* Make number input fit well */
+  padding: 5px;
+  margin-left: 10px;
+  text-align: center;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  box-sizing: border-box; /* Prevent overflow */
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+  div {
+    max-width: 90%; /* Allow the container to be responsive */
+  }
+
+  input[type="number"] {
+    width: 60px; /* Adjust number input width on small screens */
+  }
+}
+
+/* Tabs */
+.tabs {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.tab-btn {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 5px 5px 0 0;
+  transition: background 0.3s ease;
+}
+
+.tab-btn.active {
+  background: #0056b3;
+  font-weight: bold;
+}
+
+.tab-btn:hover {
+  background: #0056b3;
+}
+
+/* Hide content initially */
+.hidden {
+  display: none;
+}
+
+/* Container Styles */
+.tab-content {
+  background: white;
+  padding: 20px;
+  max-width: 500px;
+  margin: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+
